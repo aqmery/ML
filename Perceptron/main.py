@@ -2,9 +2,9 @@ import numpy as np
 
 
 class Perceptron:
-    def __init__(self, weights, threshold):
+    def __init__(self, weights, bias):
         self.weights = weights
-        self.bias = -threshold
+        self.bias = bias
 
     def __str__(self):
         return f"weights = {self.weights}, bias = {self.bias}"
@@ -25,8 +25,11 @@ class Perceptron:
             return 0
 
 
-p1 = Perceptron([.7, 0.3, .2, .8], 1.5)
+p1 = Perceptron([.7, 0.3, .2, .8], -1.5)
+
+# layer (p1, p2 p2)
+# elke output van de eerste layer is een input van de 2de layer
 print(p1)
 
 p1_activate = p1.activate([1, 0, 1, 1])
-print(p1_activate)
+print("activated =", p1_activate)
