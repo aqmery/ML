@@ -7,7 +7,7 @@ from PerceptronNetwork import PerceptronNetwork
 
 # initialize perceptrons
 p_AND = Perceptron([0.5, 0.5], -1.0, "AND")
-p_OR = Perceptron([1.0, 1.0], -1, "OR")
+p_OR = Perceptron([1.0, 1.0], -1.0, "OR")
 p_NAND = Perceptron([-1.0, -1.0], 1.0, "NAND")
 p_NOT = Perceptron([-1.0], 0.0, "NOT")
 p_NOR = Perceptron([-1.0, -1.0, -1.0], 0.0, "NOR")
@@ -20,7 +20,35 @@ p_layer_AND = PerceptronLayer([p_AND], "AND")
 p_XOR = PerceptronNetwork([p_layer_OR_NAND, p_layer_AND], "XOR")
 
 
-# p_layer = PerceptronLayer([p_])
+# print(p_XOR.activate([1, 0]))
+
+
+
+
+
+
+# p_layer1 = PerceptronLayer([p_XOR, p_XOR], "test_XOR")
+# p_layer2 = PerceptronLayer([p_AND, p_NAND], "test_OR_NAND")
+# test = PerceptronNetwork([p_layer1, p_layer2], "test_XOR2")
+#
+# test.activate([1.0, 0.0])
+# p_layer1 = PerceptronLayer([p_XOR, p_OR], "test_XOR")
+# p_layer2 = PerceptronLayer([p_AND, p_NAND], "test_OR_NAND")
+# test = PerceptronNetwork([p_layer1, p_layer2], "test_XOR3")
+
+
+# inputs = 2
+# # test perceptrons with 2 different inputs
+# p_lst_2 = [test]
+# for p in p_lst_2:
+#     print(p.name)
+#     for i in range(inputs):
+#         results = []
+#         for j in range(inputs):
+#             results.append([[i, j], p.activate([i, j])])
+#         print(results)
+#     print("")
+
 
 
 

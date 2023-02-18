@@ -10,7 +10,10 @@ class PerceptronLayer:
         return str(f"perceptron names = {p_names}, layer name = {self.name}")
 
     def activate(self, inputs):
+        # print("input layer =", inputs)
+
         output = []
         for i in self.perceptrons:
             output.append(i.activate(inputs))
+            # print("output layer =", output)
         return output
