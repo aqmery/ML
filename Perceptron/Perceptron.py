@@ -8,7 +8,7 @@ class Perceptron:
         return f"weights = {self.weights}, bias = {self.bias}, name = {self.name}"
 
     def step_function(self, weighted_sum):
-        if weighted_sum + self.bias >= 0:
+        if weighted_sum >= 0:
             self.returns = 1
             return 1
         else:
@@ -17,25 +17,7 @@ class Perceptron:
 
     def activate(self, inputs):
         weighted_sum = 0
-        if type(inputs[0]) == list:
-            # print(inputs)
-            temp = []
-            for i in range(len(inputs)):
-                temp.append(inputs[i][0])
-            inputs = temp
-            # print(inputs)
-        # print(inputs)
-        # print(self.weights)
-        # print(self.name)
-        # print("")
         for i in range(len(inputs)):
-            # print("i =", i)
-            # print(inputs[i])
-            # print("type(inputs[i]) =", type(inputs[i]))
-            # print("type(self.weights[i]) =", type(self.weights[i]))
-            # print("input * weight =", inputs[i] * self.weights[i])
-            # print("----")
             weighted_sum += inputs[i] * self.weights[i]
-        # print("")
-        # print("")
+        weighted_sum = weighted_sum + self.bias
         return self.step_function(weighted_sum)

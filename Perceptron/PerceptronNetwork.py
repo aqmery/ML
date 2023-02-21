@@ -4,9 +4,10 @@ class PerceptronNetwork:
         self.name = name
 
     def activate(self, inputs):
-        outputs = inputs
-        for i in range(len(inputs)):
-            outputs = self.perceptronLayers[i].activate(outputs)
+        outputs = []
+        for i in range(len(self.perceptronLayers)):
+            outputs = self.perceptronLayers[i].activate(inputs)
+            inputs = outputs
         return outputs
 
     def __str__(self):
