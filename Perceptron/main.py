@@ -21,76 +21,43 @@ p_layer_AND = PerceptronLayer([p_AND], "AND")
 # initialize network for XOR perceptron
 p_XOR = PerceptronNetwork([p_layer_OR_NAND, p_layer_AND], "XOR")
 
-# p_layer1 = PerceptronLayer([p_AND, p_OR, p_NAND], "test_XOR")
-# p_layer2 = PerceptronLayer([p_through, p_AND3], "test_OR_NAND")
-# test = PerceptronNetwork([p_layer1, p_layer2], "test_XOR3")
-
 
 # working half adder:
-p_layer1 = PerceptronLayer([p_AND, p_OR, p_NAND], "test_XOR")
-p_layer2 = PerceptronLayer([p_through, p_AND3], "test_OR_NAND")
-test = PerceptronNetwork([p_layer1, p_layer2], "test_XOR3")
+p_layer1 = PerceptronLayer([p_AND, p_OR, p_NAND], "AND_OR_NAND")
+p_layer2 = PerceptronLayer([p_through, p_AND3], "through_AND3")
+half_adder = PerceptronNetwork([p_layer1, p_layer2], "half_adder")
 
 
+# gives 0 and 1 as inputs to all functions bellow
 inputs = 2
 # test perceptrons with 2 different inputs
-p_lst_2 = [test]
+p_lst_2 = [half_adder, p_AND, p_OR, p_NAND, p_XOR]
 for p in p_lst_2:
     print(p.name)
-    results = []
-    print("i1, i2, out")
+    print("in1, in2 | out")
     for i in range(inputs):
         for j in range(inputs):
-            results.append([[i, j], p.activate([i, j])])
-            print(i, " ", j, " ", p.activate([i, j]))
+            print(i, "  ", j, "  |", p.activate([i, j]))
     print("")
 
 
-# p_lst_3 = [p_through, p_AND3]
-# for p in p_lst_3:
-#     print(p.name)
-#     print("i1, i2, i3, out")
-#     for i in range(inputs):
-#         for j in range(inputs):
-#             results = []
-#             for k in range(inputs):
-#                 results.append([[i, j, k], p.activate([i, j, k])])
-#                 print(i, " ", j, " ", k, " ", p.activate([i, j, k]))
-#     print("")
+p_lst_3 = [p_through, p_AND3, p_NOR]
+for p in p_lst_3:
+    print(p.name)
+    print("in1, in2, in3 | out")
+    for i in range(inputs):
+        for j in range(inputs):
+            for k in range(inputs):
+                print(i, "  ", j, "  ", k, "  |", p.activate([i, j, k]))
+    print("")
 
 
-# # gives 0 and 1 as inputs to all functions bellow
-# inputs = 2
-# # test perceptrons with 2 different inputs
-# p_lst_2 = [p_AND, p_OR, p_NAND, p_XOR]
-# for p in p_lst_2:
-#     print(p.name)
-#     results = []
-#     print("i1, i2, out")
-#     for i in range(inputs):
-#         for j in range(inputs):
-#             results.append([[i, j], p.activate([i, j])])
-#             print(i, j, p.activate([i, j]))
-#     print("")
-#
-# # test perceptrons with 1 input
-# p_lst_1 = [p_NOT]
-# for p in p_lst_1:
-#     print(p.name)
-#     results = []
-#     for i in range(inputs):
-#         results.append([[i],p.activate([i])])
-#     print(results)
-#     print("")
-#
-# # test perceptrons with 3 different inputs
-# p_lst_3 = [p_NOR]
-# for p in p_lst_3:
-#     print(p.name)
-#     for i in range(inputs):
-#         for j in range(inputs):
-#             results = []
-#             for k in range(inputs):
-#                 results.append([[i, j, k], p.activate([i, j, k])])
-#             print(results)
-#     print("")
+# test perceptrons with 1 input
+p_lst_1 = [p_NOT]
+for p in p_lst_1:
+    print(p.name)
+    print("in1 | out")
+    for i in range(inputs):
+        print(i,"  |", p.activate([i]))
+    print("")
+
