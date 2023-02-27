@@ -2,9 +2,6 @@ from Perceptron import Perceptron
 from PerceptronLayer import PerceptronLayer
 from PerceptronNetwork import PerceptronNetwork
 
-# I'm using the name variable's to make it clear which perceptron I'm using,
-# removing this variable from the perceptrons (and the functions) does not make a difference.
-
 # initialize perceptrons
 p_AND = Perceptron([0.5, 0.5], -1.0, "AND")
 p_OR = Perceptron([1.0, 1.0], -1.0, "OR")
