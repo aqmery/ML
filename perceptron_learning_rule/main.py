@@ -47,7 +47,7 @@ class Perceptron:
             temp_error = round(expit(self.weights[0]*p_input[i_input][0] +
                                      self.weights[1]*p_input[i_input][1] + self.bias), 3)
             weight_error.append(temp_error)
-        if self.total_loss(weight_error, activation) < .05:
+        if self.loss(weight_error, activation) < .05:
             return True
         self.back_propagation(weight_error, activation)
         return False
@@ -60,12 +60,12 @@ class Perceptron:
                 self.weights[i_weight] = self.weights[i_weight] - self.eta * activation[i_result] * error
             self.bias = self.bias - self.eta * 1 * error
 
-    def total_loss(self, weight_error, activation):
+    def loss(self, weight_error, activation):
         error_sum = 0
         for i_error in range(len(weight_error)):
             error_sum += (activation[i_error]-weight_error[i_error])**2
-        loss = error_sum/(2*(len(weight_error)))
-        return loss
+        total_loss = error_sum/(2*(len(weight_error)))
+        return total_loss
 
 
 x = list(itertools.product([0, 1], repeat=2))
