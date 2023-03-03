@@ -4,14 +4,10 @@ from perceptron import Perceptron
 random.seed(1782152)
 
 
-def print_perceptron(perceptron):
-    print(perceptron)
-    inputs = 2
-    print(perceptron.name)
-    print("in1, in2 | out")
-    for i in range(inputs):
-        for j in range(inputs):
-            print(i, "  ", j, "  |", perceptron.activate([i, j]))
+def print_perceptron(perceptron, inputs=2):
+    print(f"{perceptron}\n{perceptron.name}\nin1, in2 | out")
+    for i, j in itertools.product(range(inputs), repeat=2):
+        print(f"{i}  {j}  | {perceptron.activate([i, j])}")
     print("")
 
 
