@@ -38,7 +38,7 @@ def train_iris_perceptron(perceptron, p_input, activation, error_treshold=0.05):
             print(f"finished training this perceptron in {count} loops")
             stop = True
         if count == 1000:
-            print(f"couldn't train this perceptron in {count} loops")
+            print(f"couldn't train this perceptron further in {count} loops")
             stop = True
     print("")
 
@@ -66,26 +66,34 @@ iris = load_iris()
 df_iris = pd.DataFrame(data=np.c_[iris["data"], iris["target"]],
                      columns= iris["feature_names"] + ["target"])
 df_iris1 = df_iris.loc[df_iris["target"] != 2.0]
-df_iris2 = df_iris.loc[df_iris["target"] != 1.0]
 p_iris1 = Perceptron([random.uniform(0, 1) for _ in range(4)],
                      random.uniform(-1, 1),
                      "p_iris1")
-p_iris2 = Perceptron([random.uniform(0, 1) for _ in range(4)],
-                     random.uniform(-1, 1),
-                     "p_iris2")
-iris_input1 = []
-iris_activation1 = []
-for i in range(len(df_iris1.values)):
-    iris_input1.append(tuple(df_iris1.values[i][0:4]))
-    iris_activation1.append(int(df_iris1.values[i][4:5]))
+iris_input1 = [tuple(row[:4]) for row in df_iris1.values]
+iris_activation1 = [int(row[4]) for row in df_iris1.values]
 
 train_iris_perceptron(p_iris1, iris_input1, iris_activation1, 0.01)
 
-results = []
-for i in range(len(df_iris1.values)):
-    results.append(p_iris1.activate(df_iris1.values[i][0:4]))
-
-print(results)
-
-correct = sum(1 for i in range(len(iris_activation1)) if results[i] == iris_activation1[i])
+results1 = [p_iris1.activate(row[:4]) for row in df_iris1.values]
+correct = sum(1 for i in range(len(iris_activation1)) if results1[i] == iris_activation1[i])
 print(f"percentage correct = {correct/len(iris_activation1)*100}%")
+
+
+df_iris2 = df_iris.loc[df_iris["target"] != 1.0]
+p_iris2 = Perceptron([random.uniform(0, 1) for _ in range(4)],
+                     random.uniform(-1, 1),
+                     "p_iris2")
+iris_input2 = [tuple(row[:4]) for row in df_iris2.values]
+iris_activation2 = [int(row[4]) for row in df_iris2.values]
+
+train_iris_perceptron(p_iris2, iris_input2, iris_activation2, 0.01)
+
+results2 = [p_iris2.activate(row[:4]) for row in df_iris2.values]
+correct = sum(1 for i in range(len(iris_activation2)) if results2[i] == iris_activation2[i])
+print(f"percentage correct = {correct/len(iris_activation2)*100}%")
+
+
+print(p_iris1)
+print(p_iris2)
+
+
