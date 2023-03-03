@@ -11,40 +11,35 @@ def print_perceptron(perceptron, inputs=2):
     print("")
 
 
-x = list(itertools.product([0, 1], repeat=2))
+def train_perceptron(perceptron, activation):
+    x = list(itertools.product([0, 1], repeat=2))
+    stop = False
+    count = 0
+    while not stop:
+        count += 1
+        if perceptron.update(x, activation):
+            print(f"finished training this perceptron in {count} loops")
+            stop = True
+        if count == 1000:
+            print(f"couldn't train this perceptron in {count} loops")
+            stop = True
+    print("")
+
+
 y_and = [0, 0, 0, 1]
-p_and = Perceptron([-0.5, 0.5], 1.5, "AND")
-
-print_perceptron(p_and)
-
-stop = False
-count = 0
-while not stop:
-    count += 1
-    if p_and.update(x, y_and):
-        stop = True
-    if count == 1000:
-        stop = True
-print("amount of updates:", count)
-print("")
-
-print_perceptron(p_and)
-
-
+p_and = Perceptron([random.uniform(-1, 1), random.uniform(-1, 1)],
+                   random.uniform(-1, 1),
+                   "AND")
 y_xor = [0, 1, 1, 0]
-p_xor = Perceptron([-0.5, 0.5], 1.5, "XOR")
+p_xor = Perceptron([random.uniform(-1, 1), random.uniform(-1, 1)],
+                   random.uniform(-1, 1),
+                   "XOR")
 
+
+print_perceptron(p_and)
+train_perceptron(p_and, y_and)
+print_perceptron(p_and)
+print("----------------------------------------------------\n")
 print_perceptron(p_xor)
-
-stop = False
-count = 0
-while not stop:
-    count += 1
-    if p_xor.update(x, y_xor):
-        stop = True
-    if count == 1000:
-        stop = True
-print("amount of updates:", count)
-print("")
-
+train_perceptron(p_xor, y_xor)
 print_perceptron(p_xor)
