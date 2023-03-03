@@ -37,13 +37,12 @@ class Perceptron:
         weighted_sum = weighted_sum + self.bias
         return self.step_function(weighted_sum)
 
-    def update(self, p_input, activation):
+    def update(self, p_input, activation, error_treshhold):
         weight_error = []
         for i_input in range(len(p_input)):
-            temp_error = round(expit(self.weights[0]*p_input[i_input][0] +
-                                     self.weights[1]*p_input[i_input][1] + self.bias), 3)
+            temp_error = round(expit(sum([self.weights[i] * p_input[i_input][i] for i in range(len(self.weights))]) + self.bias), 3)
             weight_error.append(temp_error)
-        if self.loss(weight_error, activation) < .05:
+        if self.loss(weight_error, activation) < error_treshhold:
             return True
         self.back_propagation(weight_error, activation)
         return False
