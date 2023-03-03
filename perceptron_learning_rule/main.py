@@ -4,9 +4,9 @@ from perceptron import Perceptron
 random.seed(1782152)
 
 
-def print_perceptron(perceptron, inputs=2):
+def print_perceptron(perceptron):
     print(f"{perceptron}\n{perceptron.name}\nin1, in2 | out")
-    for i, j in itertools.product(range(inputs), repeat=2):
+    for i, j in itertools.product(range(2), repeat=2):
         print(f"{i}  {j}  | {perceptron.activate([i, j])}")
     print("")
 
