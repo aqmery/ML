@@ -1,6 +1,6 @@
-from Perceptron import Perceptron
-from PerceptronLayer import PerceptronLayer
-from PerceptronNetwork import PerceptronNetwork
+from perceptron import Perceptron
+from perceptron_layer import PerceptronLayer
+from perceptron_network import PerceptronNetwork
 
 # initialize perceptrons
 p_AND = Perceptron([0.5, 0.5], -1.0, "AND")
