@@ -1,5 +1,6 @@
 from scipy.special import expit
 
+
 class Perceptron:
     """
     creates a Perceptron object.
