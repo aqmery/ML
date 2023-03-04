@@ -14,13 +14,13 @@ def print_perceptron(perceptron):
     print("")
 
 
-def train_perceptron(perceptron, activation, error_treshold=0.05):
+def train_perceptron(perceptron, activation, error_threshold=0.05):
     p_input = list(itertools.product([0, 1], repeat=2))
     stop = False
     count = 0
     while not stop:
         count += 1
-        if perceptron.update(p_input, activation, error_treshold):
+        if perceptron.update(p_input, activation, error_threshold):
             print(f"finished training this perceptron in {count} loops")
             stop = True
         if count == 1000:
@@ -29,12 +29,12 @@ def train_perceptron(perceptron, activation, error_treshold=0.05):
     print("")
 
 
-def train_iris_perceptron(perceptron, p_input, activation, error_treshold=0.05):
+def train_iris_perceptron(perceptron, p_input, activation, error_threshold=0.05):
     stop = False
     count = 0
     while not stop:
         count += 1
-        if perceptron.update(p_input, activation, error_treshold):
+        if perceptron.update(p_input, activation, error_threshold):
             print(f"finished training this perceptron in {count} loops")
             stop = True
         if count == 1000:
@@ -94,6 +94,7 @@ print(f"percentage correct = {correct/len(iris_activation2)*100}%")
 
 
 print(p_iris1)
+print(df_iris1.values[50:51, :])
 print(p_iris2)
 
 
