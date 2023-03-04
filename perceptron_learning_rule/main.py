@@ -93,7 +93,7 @@ print("----------------------------------------------------\n")
 iris = load_iris()
 df_iris = pd.DataFrame(data=np.c_[iris["data"], iris["target"]],
                      columns= iris["feature_names"] + ["target"])
-"""splits the iris df into 2 separate df's, 1 containing "setosa" and "versicolor", the other containing:
+"""splits the iris df into 2 separate dfs, 1 containing "setosa" and "versicolor", the other containing:
 "setosa" and "virginica".
 creates 2 "iris" perceptrons that have 4 weights and 1 bias.
 as well as well as formatting all the inputs to a list of tuples, and the targets as a list of ints, for each perceptron."""
@@ -140,6 +140,24 @@ print(p_iris2)
 print(f"percentage correct = {correct2/len(iris_activation2)*100}%")
 
 
+"""in conclusion:
+3.a. the final parameters of the and perceptron are:
+    weights = [2.099383380832772, 0.8017412383211584], bias = -2.124479997506068
 
+3.b. the final parameters of the xor perceptron are:
+    weights = [4.494618387453568, 4.13285886300068], bias = -1.834556204282468
+    but obviously it doesn't work, as it needs more than 1 layer to function.
 
+3.c.i. the final parameters of the iris1 perceptron are:
+    weights = [7.622027044609713, 7.2885968113681345, 7.58056793096198, 7.4579294510930305], bias = -85.0322175923695
 
+3.c.ii. the final parameters of the iris2 perceptron are:
+    weights = [3.2551122422360015, 3.662541654494767, 3.3763164577640734, 4.004124690069453], bias = -41.70539527849178
+    
+
+interestingly the iris2 perceptron is really quick to learn, even with a higher error threshold,
+getting a 100% accuracy on the "setosa" and "virginica" data in only a few runs and with a lot more certainty.
+looking over this data it's quite clear why, as there is a large difference in sizes for multiple parameters,
+the difference between the "setosa" and "versicolor" data isn't as strong, 
+therefore it takes the iris1 perceptron a lot longer to train, and doesn't score a 100% accuracy, which is to be expected.
+"""
