@@ -56,6 +56,11 @@ print_neuron2(n_OR_old)
 print_neuron1(n_NOT_old)
 
 
+"""created a 3 input NOR gate and print the results."""
+n_NOR = Neuron([-15.0, -15.0, -15.0], 10.0, "NOR")
+print_neuron3(n_NOR)
+
+
 """setup for the half adder neurons with new weights"""
 n_AND = Neuron([12, 12], -20.0, "AND")
 n_OR = Neuron([15.0, 15.0], -10.0, "OR")
