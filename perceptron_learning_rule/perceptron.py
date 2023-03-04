@@ -44,10 +44,10 @@ class Perceptron:
             weight_error.append(temp_error)
         if self.loss(weight_error, activation) < error_threshold:
             return True
-        self.back_propagation(weight_error, activation)
+        self.update_weights(weight_error, activation)
         return False
 
-    def back_propagation(self, weight_error, activation):
+    def update_weights(self, weight_error, activation):
         for i_result in range(len(activation)):
             error = round(weight_error[i_result]*((1-weight_error[i_result])*
                                                   -(activation[i_result]-weight_error[i_result])), 3)
