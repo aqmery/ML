@@ -9,10 +9,10 @@ class NeuronLayer:
         self.name = name
 
     def __str__(self):
-        p_names = []
+        n_names = []
         for i in range(len(self.neurons)):
-            p_names.append(self.neurons[i].name)
-        return str(f"neuron names = {p_names}, layer name = {self.name}")
+            n_names.append(self.neurons[i].name)
+        return str(f"neuron names = {n_names}, layer name = {self.name}")
 
     def activate(self, inputs):
         """
@@ -20,6 +20,6 @@ class NeuronLayer:
         :return: a list of the outputs of the activated Neuron objects.
         """
         output = []
-        for p in self.neurons:
-            output.append(p.activate(inputs))
+        for n in self.neurons:
+            output.append(n.activate(inputs))
         return output

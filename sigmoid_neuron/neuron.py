@@ -18,8 +18,8 @@ class Neuron:
 
     def sigmoid_activation_function(self, weighted_sum):
         """
-        :param weighted_sum: gets a float ////////////////
-        :return: returns 1 or 0 based on the weighted_sum.
+        :param weighted_sum: gets a float and inputs it into the sigmoid function.
+        :return: returns a value between 0 and 1.
         """
         return 1/(1+math.e**-weighted_sum)
 
