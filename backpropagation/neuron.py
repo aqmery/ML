@@ -14,27 +14,38 @@ class Neuron:
         self.bias = bias
         self.name = name
         self.eta = .1
-        self.error = 0
+        self.error = None
 
     def __str__(self):
         return f"weights = {self.weights}, bias = {self.bias}, name = {self.name}, error = {self.error}"
 
-    def sigmoid_activation_function(self, weighted_sum):
+    def sigmoid(self, sig_input):
         """
-        :param weighted_sum: gets a float and inputs it into the sigmoid function.
+        :param sig_input: gets a float and inputs it into the sigmoid function.
         :return: returns a value between 0 and 1.
         """
-        return 1/(1+math.e**-weighted_sum)
+        return 1/(1+math.e**-sig_input)
 
-    # def error(self, inputs):
-    #     weight_error = []
-    #     for i_input in range(len(inputs)):
-    #         temp_error = round(expit(sum([self.weights[i] * inputs[i_input][i] for i in range(len(self.weights))]) + self.bias), 3)
-    #         weight_error.append(temp_error)
-    #     self.error =
+    def sigmoid_deriv(self, sig_input):
+        """
+        :param sig_input: gets a float and inputs it into the sigmoid derivative function.
+        :return: returns a value between 0 and 1.
+        """
+        return self.sigmoid(sig_input)*(1-self.sigmoid(sig_input))
+
+    def calculate_error(self, inputs, activation):
+        output = self.activate(inputs)
+        inasdf = []
+        for i in range(len(inputs)):
+            ine = self.sigmoid_deriv(inputs[i]) * -(activation - output)
+            inasdf.append(ine)
+
+        print(inasdf)
+        # j =
+        pass
 
 
-    def update(self, n_input, activation):
+    def update(self, inputs, activation):
         pass
 
 
@@ -47,4 +58,4 @@ class Neuron:
         for i in range(len(inputs)):
             weighted_sum += inputs[i] * self.weights[i]
         weighted_sum = weighted_sum + self.bias
-        return self.sigmoid_activation_function(weighted_sum)
+        return self.sigmoid(weighted_sum)
