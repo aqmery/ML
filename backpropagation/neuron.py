@@ -13,8 +13,9 @@ class Neuron:
         self.weights = weights
         self.bias = bias
         self.name = name
-        self.eta = .1
+        self.eta = .5
         self.error = None
+        self.output = None
 
     def __str__(self):
         return f"weights = {self.weights}, bias = {self.bias}, name = {self.name}, error = {self.error}"
@@ -26,27 +27,33 @@ class Neuron:
         """
         return 1/(1+math.e**-sig_input)
 
-    def sigmoid_deriv(self, sig_input):
-        """
-        :param sig_input: gets a float and inputs it into the sigmoid derivative function.
-        :return: returns a value between 0 and 1.
-        """
-        return self.sigmoid(sig_input)*(1-self.sigmoid(sig_input))
-
-    def calculate_error(self, inputs, activation):
+    def calculate_error(self, inputs, target):
         output = self.activate(inputs)
-        inasdf = []
-        for i in range(len(inputs)):
-            ine = self.sigmoid_deriv(inputs[i]) * -(activation - output)
-            inasdf.append(ine)
+        error = (output*(1-output))*-(target-output)
+        self.error = error
+        self.output = output
+        print("self.output", self.output)
+        print("self.error", self.error)
+        print("target", target)
+        print("")
 
-        print(inasdf)
-        # j =
-        pass
+    def calculate_gradient(self, weight):
+        return weight*self.error
 
+    def calculate_delta(self):
+        weight_change = []
+        for i in range(len(self.weights)):
+            weight_change.append(self.eta*(self.weights[i]*self.error))
+        bias_change = self.eta*self.error
+        return weight_change, bias_change
 
-    def update(self, inputs, activation):
-        pass
+    def update(self):
+        weight_change, bias_change = self.calculate_delta()
+        # print("weight_change", weight_change)
+        # print("bias_change", bias_change)
+        for i in range(len(self.weights)):
+            self.weights[i] = self.weights[i]-weight_change[i]
+        self.bias = self.bias-bias_change
 
 
     def activate(self, inputs):
@@ -58,4 +65,6 @@ class Neuron:
         for i in range(len(inputs)):
             weighted_sum += inputs[i] * self.weights[i]
         weighted_sum = weighted_sum + self.bias
-        return self.sigmoid(weighted_sum)
+        output = self.sigmoid(weighted_sum)
+        self.output = output
+        return output
