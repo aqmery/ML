@@ -14,6 +14,7 @@ class Neuron:
         self.bias = bias
         self.name = name
         self.eta = .5
+        self.inputs = None
         self.error = None
         self.output = None
 
@@ -32,10 +33,6 @@ class Neuron:
         error = (output*(1-output))*-(target-output)
         self.error = error
         self.output = output
-        print("self.output", self.output)
-        print("self.error", self.error)
-        print("target", target)
-        print("")
 
     def calculate_gradient(self, weight):
         return weight*self.error
@@ -43,14 +40,13 @@ class Neuron:
     def calculate_delta(self):
         weight_change = []
         for i in range(len(self.weights)):
-            weight_change.append(self.eta*(self.weights[i]*self.error))
+            weight_change.append(self.eta*(self.inputs[i]*self.error))
         bias_change = self.eta*self.error
+        # print(bias_change, weight_change)
         return weight_change, bias_change
 
     def update(self):
         weight_change, bias_change = self.calculate_delta()
-        # print("weight_change", weight_change)
-        # print("bias_change", bias_change)
         for i in range(len(self.weights)):
             self.weights[i] = self.weights[i]-weight_change[i]
         self.bias = self.bias-bias_change
@@ -69,6 +65,7 @@ class Neuron:
         :param inputs: gets a list of ints and calculates the weighted sum based on the weights and the bias.
         :return: returns a sigmoid_activation_function call with weighted_sum as argument.
         """
+        self.inputs = inputs
         weighted_sum = 0
         for i in range(len(inputs)):
             weighted_sum += inputs[i] * self.weights[i]
