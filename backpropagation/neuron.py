@@ -55,6 +55,14 @@ class Neuron:
             self.weights[i] = self.weights[i]-weight_change[i]
         self.bias = self.bias-bias_change
 
+    def hidden_error(self):
+        h_error = (self.output*(1-self.output))*(sum(self.weights[i] for i in range(len(self.weights))))* self.error
+        print(self.error)
+        print(self.weights)
+        print("sum", sum([self.weights[i] * self.error for i in range(len(self.weights))]))
+        print("h_error", h_error)
+        for i in range(len(self.weights)):
+            print(self.weights[i]*self.error)
 
     def activate(self, inputs):
         """
