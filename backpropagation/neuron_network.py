@@ -7,6 +7,7 @@ class NeuronNetwork:
     def __init__(self, neuron_layers, name):
         self.neuron_layers = neuron_layers
         self.name = name
+        self.eta = 1
         self.inputs = None
         self.error = None
         self.output = None
@@ -19,23 +20,50 @@ class NeuronNetwork:
 
     def calculate_error(self, inputs, target):
         output = self.activate(inputs)
-        # print(output)
         error_lst = []
         for i in range(len(target)):
-            print(f"output[i] {output[i]}, 1-output[i] {1-output[i]}, target[i] {target[i]}, output[i] {output[i]}")
+            # print(f"output[i] {output[i]}, 1-output[i] {1-output[i]}, target[i] {target[i]}, output[i] {output[i]}")
             error = (output[i]*(1-output[i]))*-(target[i]-output[i])
             error_lst.append(error)
-        # print(error_lst)
-        # error = (output*(1-output))*-(target-output)
         self.error = error_lst
         self.output = output
 
-    def update(self, inputs, target):
-        # print(self.activate(inputs), target)
-        self.calculate_error(inputs, target)
-        print(self.output, self.error, target)
+    def calculate_output_layer(self, inputs, error):
+        last = len(self.neuron_layers)-2
+        for e in range(len(error)):
+            weight_change = []
+            for i in range(len(self.neuron_layers[last].neurons)):
+                print(self.neuron_layers[last].neurons[i].name)
+                print(self.neuron_layers[last].neurons[i].activate(inputs))
+                print(self.neuron_layers[last].neurons[i].weights)
+                print(self.neuron_layers[last].neurons[i].activate(inputs) * self.eta * error[e])
+                print("")
+            print(self.neuron_layers[last+1].neurons[e].name)
+            print(self.eta*error[e])
+            print("")
+            print("")
+    #         for j in range(len(self.neuron_layers[last].neurons[i].weights)):
+    #             weight_change.append(self.eta*self.neuron_layers[last].neurons[i].weights[j]*error[i])
+    #             print(self.neuron_layers[last].neurons[i].weights[j])
+    #         print(weight_change)
 
-    # def backprop(self):
+
+    def backprop(self, inputs, target):
+        self.activate(inputs)
+        self.calculate_error(inputs, target)
+        error = self.error
+        print("self.error", self.error)
+        print("self.output", self.output)
+        self.calculate_output_layer(inputs, error)
+
+        print("-----------------------------")
+        # for i in reversed(range(len(self.neuron_layers))):
+        #     self.neuron_layers[i].backprop(error, self.eta)
+        #     print("-----------------------------")
+        # error =
+
+
+
 
     def activate(self, inputs):
         """

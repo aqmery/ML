@@ -67,25 +67,32 @@ def train_neuron_network(neuron_network, activation):
 # print_neuron2(n_and)
 
 
-# m1 = Neuron([1.0], 0, "m1")
-# n1 = Neuron([1.0], 0, "n1")
+# m1 = Neuron([1.0, 0.1], 0, "m1")
+# n1 = Neuron([1.0, 0.1], 0, "n1")
 f2 = Neuron([0.0, 0.1], 0, "f2")
 g2 = Neuron([0.2, 0.3], 0, "g2")
 h2 = Neuron([0.4, 0.5], 0, "h2")
 s3 = Neuron([0.6, 0.7, 0.8], 0, "s3")
 c3 = Neuron([0.9, 1.0, 1.1], 0, "c3")
 
+# n_l0 = NeuronLayer([m1, n1], "input layer 2n")
 n_l1 = NeuronLayer([f2, g2, h2], "hidden layer 3n")
 n_l2 = NeuronLayer([s3, c3], "output layer 2n")
+
 
 half_adder = NeuronNetwork([n_l1, n_l2], "half_adder")
 activation_half_adder = [[0,0], [1,0], [1,0], [0,1]]
 
 
-print(f2.activate([1,1]))
-print("")
-print(half_adder.activate([1,1]))
-half_adder.calculate_error([1,1], activation_half_adder[3])
+# print(f2.activate([1,1]))
+# print("")
+# print(half_adder.activate([1,1]))
+# half_adder.activate([1, 1])
+half_adder.backprop([1, 1], activation_half_adder[3])
+# half_adder.calculate_error([1,1], activation_half_adder[3])
 print("")
 print("")
 print("half_adder.error", half_adder.error)
+
+
+

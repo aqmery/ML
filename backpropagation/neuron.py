@@ -13,7 +13,7 @@ class Neuron:
         self.weights = weights
         self.bias = bias
         self.name = name
-        self.eta = .1
+        # self.eta = .1
         self.inputs = None
         self.error = None
         self.output = None
@@ -37,19 +37,30 @@ class Neuron:
     def calculate_gradient(self, weight_out):
         return weight_out*self.error
 
-    def calculate_delta(self):
+    def calculate_delta(self, eta):
         weight_change = []
         for i in range(len(self.weights)):
-            weight_change.append(self.eta*(self.inputs[i]*self.error))
-        bias_change = self.eta*self.error
+            weight_change.append(eta*(self.inputs[i]*self.error))
+        bias_change = eta*self.error
         return weight_change, bias_change
 
-    def update(self, inputs, target):
+    def update(self, inputs, target, eta):
         self.calculate_error(inputs, target)
-        weight_change, bias_change = self.calculate_delta()
+        weight_change, bias_change = self.calculate_delta(eta)
         for i in range(len(self.weights)):
             self.weights[i] = self.weights[i]-weight_change[i]
         self.bias = self.bias-bias_change
+
+    def backprop(self, error, eta):
+        print(self.name)
+        print(self.weights)
+        print(error)
+        self.error = error
+        weight_change, bias_change = self.calculate_delta(eta)
+        print("weight_change", weight_change, " bias_change", bias_change)
+
+
+
 
     def hidden_error(self):
         # sum_next_layer = sum(weights next layer * error next layer)

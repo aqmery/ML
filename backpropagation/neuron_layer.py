@@ -14,6 +14,21 @@ class NeuronLayer:
             n_names.append(self.neurons[i].name)
         return str(f"neuron names = {n_names}, layer name = {self.name}")
 
+    def backprop(self, error, eta):
+        print("layer name =", self.name)
+        # self.neurons[0].backprop(error[0], eta)
+        print(len(self.neurons))
+        for i in range(len(self.neurons)):
+            print("neuron name =", self.neurons[i].name)
+            print("neuron weights = ", self.neurons[i].weights)
+            print("error = ", error[0])
+            # print(self.neurons[i].error)
+            self.neurons[i].backprop(error[0], eta)
+            print("")
+        #     # print(self.neurons[i].weights)
+        #     # print(self.neurons[i].bias)
+        print("")
+
     def activate(self, inputs):
         """
         :param inputs: gets a list of Neuron objects.
