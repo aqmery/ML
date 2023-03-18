@@ -34,31 +34,33 @@ class Neuron:
         self.error = error
         self.output = output
 
-    def calculate_gradient(self, weight):
-        return weight*self.error
+    def calculate_gradient(self, weight_out):
+        return weight_out*self.error
 
     def calculate_delta(self):
         weight_change = []
         for i in range(len(self.weights)):
             weight_change.append(self.eta*(self.inputs[i]*self.error))
         bias_change = self.eta*self.error
-        # print(bias_change, weight_change)
         return weight_change, bias_change
 
-    def update(self):
+    def update(self, inputs, target):
+        self.calculate_error(inputs, target)
         weight_change, bias_change = self.calculate_delta()
         for i in range(len(self.weights)):
             self.weights[i] = self.weights[i]-weight_change[i]
         self.bias = self.bias-bias_change
 
     def hidden_error(self):
-        h_error = (self.output*(1-self.output))*(sum(self.weights[i] for i in range(len(self.weights))))* self.error
-        print(self.error)
-        print(self.weights)
-        print("sum", sum([self.weights[i] * self.error for i in range(len(self.weights))]))
+        # sum_next_layer = sum(weights next layer * error next layer)
+        h_error = (self.output*(1-self.output))
+
+        # h_error = (self.output*(1-self.output))*(sum(self.weights[i] for i in range(len(self.weights))))* self.error
+        print("self.error", self.error)
         print("h_error", h_error)
         for i in range(len(self.weights)):
-            print(self.weights[i]*self.error)
+            print("self.weights[i]*self.error", self.weights[i]*self.error)
+        print("")
 
     def activate(self, inputs):
         """

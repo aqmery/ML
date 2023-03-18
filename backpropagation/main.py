@@ -42,13 +42,12 @@ def print_neuron3(neuron):
 
 def train_neuron(neuron, activation):
     inputs = list(itertools.product([0, 1], repeat=2))
-    for j in range(1000):
+    for j in range(1):
         for sample, target in zip(inputs, activation):
             # print(sample, target)
-            neuron.calculate_error(sample, target)
-            neuron.update()
-            # neuron.hidden_error()
-
+            neuron.update(sample, target)
+            neuron.hidden_error()
+            # print(neuron)
 
 
 
@@ -60,7 +59,6 @@ print_neuron2(n_and)
 train_neuron(n_and, activation_and)
 
 print_neuron2(n_and)
-# print(n_and.activate([0, 0]))
 
 
 
