@@ -13,10 +13,11 @@ class Neuron:
         self.weights = weights
         self.bias = bias
         self.name = name
-        # self.eta = .1
         self.inputs = None
         self.error = None
         self.output = None
+        self.weightchanges = None
+        self.biaschange = None
 
     def __str__(self):
         return f"weights = {self.weights}, bias = {self.bias}, name = {self.name}, error = {self.error}"
@@ -62,15 +63,17 @@ class Neuron:
 
 
 
-    def hidden_error(self):
-        # sum_next_layer = sum(weights next layer * error next layer)
-        h_error = (self.output*(1-self.output))
+    def hidden_error(self, weights, error):
+        h_error = (self.output * (1 - self.output))
+        # print(h_error)
+        sum_previous_layer = 0
+        for i in range(len(error)):
+            sum_previous_layer += weights[i]*error[i]
+        self.error = h_error*sum_previous_layer
+        print(self.error)
 
-        # h_error = (self.output*(1-self.output))*(sum(self.weights[i] for i in range(len(self.weights))))* self.error
-        print("self.error", self.error)
-        print("h_error", h_error)
-        for i in range(len(self.weights)):
-            print("self.weights[i]*self.error", self.weights[i]*self.error)
+
+
         print("")
 
     def activate(self, inputs):

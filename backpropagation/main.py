@@ -67,15 +67,15 @@ def train_neuron_network(neuron_network, activation):
 # print_neuron2(n_and)
 
 
-# m1 = Neuron([1.0, 0.1], 0, "m1")
-# n1 = Neuron([1.0, 0.1], 0, "n1")
+m1 = Neuron([1.0, 0.1], 0, "m1")
+n1 = Neuron([1.0, 0.1], 0, "n1")
 f2 = Neuron([0.0, 0.1], 0, "f2")
 g2 = Neuron([0.2, 0.3], 0, "g2")
 h2 = Neuron([0.4, 0.5], 0, "h2")
 s3 = Neuron([0.6, 0.7, 0.8], 0, "s3")
 c3 = Neuron([0.9, 1.0, 1.1], 0, "c3")
 
-# n_l0 = NeuronLayer([m1, n1], "input layer 2n")
+n_l0 = NeuronLayer([m1, n1], "input layer 2n")
 n_l1 = NeuronLayer([f2, g2, h2], "hidden layer 3n")
 n_l2 = NeuronLayer([s3, c3], "output layer 2n")
 
@@ -94,5 +94,7 @@ print("")
 print("")
 print("half_adder.error", half_adder.error)
 
+# print(half_adder.neuron_layers[1].neurons[0].weights)
+# print(half_adder.neuron_layers[1].neurons[0].weightchange)
 
 
