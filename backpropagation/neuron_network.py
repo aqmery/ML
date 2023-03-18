@@ -22,7 +22,6 @@ class NeuronNetwork:
         output = self.activate(inputs)
         error_lst = []
         for i in range(len(target)):
-            # print(f"output[i] {output[i]}, 1-output[i] {1-output[i]}, target[i] {target[i]}, output[i] {output[i]}")
             error = (output[i]*(1-output[i]))*-(target[i]-output[i])
             error_lst.append(error)
         self.error = error_lst
@@ -40,17 +39,9 @@ class NeuronNetwork:
 
     def calculate_hidden_layers(self):
         error = self.error
-        # print(error)
-        # print(error)
-        # print(self.neuron_layers[len(self.neuron_layers) - 1].neurons[0].weights)
-        # print(self.neuron_layers[len(self.neuron_layers)-1].neurons[0].weightchanges)
-        # print(self.neuron_layers[len(self.neuron_layers) - 1].neurons[0].name)
         print("")
-        temp = None
         for i in reversed(range(len(self.neuron_layers)-1)):
             print("layer =", i, "layer name =", self.neuron_layers[i].name)
-            # print("weights layer =", self.neuron_layers[i].neurons[0].weights)
-            # print("weights layer =", self.neuron_layers[i].neurons[1].weights)
             temp = []
             print(len(self.neuron_layers[i].neurons))
             for j in range(len(self.neuron_layers[i].neurons)):
@@ -59,18 +50,10 @@ class NeuronNetwork:
                     weights.append(self.neuron_layers[len(self.neuron_layers) - 1].neurons[k].weights[j])
                 print("print weights from network =", weights)
                 temp.append(self.neuron_layers[i].neurons[j].hidden_error(weights, error, self.eta))
-            # print("temp", temp)
-            # print(len(temp))
-            # print(len(temp[0][1]))
-            # for l in range(len(temp)):
-            #     print(temp[l])
             print("")
             print("-----------------------------")
             print("")
             print("")
-                # print(self.neuron_layers[i].neurons[j].name)
-            #     print("name =",self.neuron_layers[i].neurons[j].name)
-            # print("")
 
     def backprop(self, inputs, target):
         self.activate(inputs)
@@ -100,17 +83,3 @@ class NeuronNetwork:
             inputs = outputs
         return outputs
         # return self.feed_forward(outputs)
-
-    # def feed_forward(self, outputs):
-    #     """
-    #     decides if the network should output a 0 or a 1.
-    #     :param outputs: gets the outputs of all the layers for a specific input.
-    #     :return: returns either a 1 or a 0 based on the values of the outputs.
-    #     """
-    #     new_out = []
-    #     for output in outputs:
-    #         if output >= 0.5:
-    #             new_out.append(1)
-    #         else:
-    #             new_out.append(0)
-    #     return new_out
