@@ -13,7 +13,7 @@ class Neuron:
         self.weights = weights
         self.bias = bias
         self.name = name
-        self.eta = .5
+        self.eta = .1
         self.inputs = None
         self.error = None
         self.output = None
@@ -72,6 +72,7 @@ class Neuron:
         for i in range(len(inputs)):
             weighted_sum += inputs[i] * self.weights[i]
         weighted_sum = weighted_sum + self.bias
+
         output = self.sigmoid(weighted_sum)
         self.output = output
         return output
