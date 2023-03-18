@@ -52,29 +52,36 @@ class Neuron:
             self.weights[i] = self.weights[i]-weight_change[i]
         self.bias = self.bias-bias_change
 
-    def backprop(self, error, eta):
-        print(self.name)
-        print(self.weights)
-        print(error)
-        self.error = error
-        weight_change, bias_change = self.calculate_delta(eta)
-        print("weight_change", weight_change, " bias_change", bias_change)
+    # def backprop(self, error, eta):
+    #     print(self.name)
+    #     print(self.weights)
+    #     print(error)
+    #     self.error = error
+    #     weight_change, bias_change = self.calculate_delta(eta)
+    #     print("weight_change", weight_change, " bias_change", bias_change)
 
-
-
-
-    def hidden_error(self, weights, error):
+    def hidden_error(self, weights, error, eta):
         h_error = (self.output * (1 - self.output))
         # print(h_error)
         sum_previous_layer = 0
         for i in range(len(error)):
             sum_previous_layer += weights[i]*error[i]
         self.error = h_error*sum_previous_layer
-        print(self.error)
-
-
-
+        weight_change = []
+        for i in range(len(self.weights)):
+            weight_change.append(eta * self.inputs[i]*self.error)
+        bias_change = eta*1*self.error
+        self.weightchanges = weight_change
+        self.biaschange = bias_change
+        print(weight_change)
+        print(bias_change)
+        # print("self.error", self.error)
         print("")
+        # print(self.inputs)
+        # print(self.error)
+        # print(self.weights)
+        # print("")
+        return self.error, self.weights
 
     def activate(self, inputs):
         """

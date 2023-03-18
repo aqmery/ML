@@ -41,22 +41,36 @@ class NeuronNetwork:
     def calculate_hidden_layers(self):
         error = self.error
         # print(error)
+        # print(error)
         # print(self.neuron_layers[len(self.neuron_layers) - 1].neurons[0].weights)
         # print(self.neuron_layers[len(self.neuron_layers)-1].neurons[0].weightchanges)
         # print(self.neuron_layers[len(self.neuron_layers) - 1].neurons[0].name)
         print("")
+        temp = None
         for i in reversed(range(len(self.neuron_layers)-1)):
-            # print(self.neuron_layers[i].name)
+            print("layer =", i, "layer name =", self.neuron_layers[i].name)
+            # print("weights layer =", self.neuron_layers[i].neurons[0].weights)
+            # print("weights layer =", self.neuron_layers[i].neurons[1].weights)
+            temp = []
+            print(len(self.neuron_layers[i].neurons))
             for j in range(len(self.neuron_layers[i].neurons)):
                 weights = []
                 for k in range(len(error)):
                     weights.append(self.neuron_layers[len(self.neuron_layers) - 1].neurons[k].weights[j])
-                print(weights)
-                self.neuron_layers[i].neurons[j].hidden_error(weights, error)
+                print("print weights from network =", weights)
+                temp.append(self.neuron_layers[i].neurons[j].hidden_error(weights, error, self.eta))
+            # print("temp", temp)
+            # print(len(temp))
+            # print(len(temp[0][1]))
+            # for l in range(len(temp)):
+            #     print(temp[l])
+            print("")
+            print("-----------------------------")
+            print("")
+            print("")
                 # print(self.neuron_layers[i].neurons[j].name)
             #     print("name =",self.neuron_layers[i].neurons[j].name)
             # print("")
-
 
     def backprop(self, inputs, target):
         self.activate(inputs)
