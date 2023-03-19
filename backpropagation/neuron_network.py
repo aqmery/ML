@@ -21,9 +21,13 @@ class NeuronNetwork:
     def calculate_error(self, inputs, target):
         output = self.activate(inputs)
         error_lst = []
-        for i in range(len(target)):
-            error = (output[i]*(1-output[i]))*-(target[i]-output[i])
+        if type(target) == int:
+            error = (output[0]*(1-output[0]))*-(target-output[0])
             error_lst.append(error)
+        else:
+            for i in range(len(target)):
+                error = (output[i]*(1-output[i]))*-(target[i]-output[i])
+                error_lst.append(error)
         self.error = error_lst
         self.output = output
 
@@ -35,7 +39,19 @@ class NeuronNetwork:
         return total_sum/(2*len(error)*len(error[0]))
 
     def calculate_output_layer(self, inputs, error):
-        output_layer = len(self.neuron_layers)-2
+        # print("asdf")
+        # print(self.neuron_layers)
+        # # print("layer name ", self.neuron_layers.name)
+        # # print(self.neuron_layers.neurons)
+        # print("asdf")
+        # if len(self.neuron_layers) < 2:
+        #     output_layer = 0
+        # else:
+        #     output_layer = len(self.neuron_layers)-2
+        output_layer = len(self.neuron_layers) - 2
+        # print(inputs)
+        # print(error)
+        # print(output_layer)
         for e in range(len(error)):
             weight_change = []
             for i in range(len(self.neuron_layers[output_layer].neurons)):
@@ -43,6 +59,7 @@ class NeuronNetwork:
             bias_change = self.eta * error[e]
             self.neuron_layers[output_layer + 1].neurons[e].weightchanges = weight_change
             self.neuron_layers[output_layer + 1].neurons[e].biaschange = bias_change
+
 
     def calculate_hidden_layers(self):
         error = self.error
@@ -63,6 +80,8 @@ class NeuronNetwork:
             count += 1
 
     def update(self):
+        # if len(self.neuron_layers) == 1 and len(self.neuron_layers[0].neurons) == 1:
+        #     self.neuron_layers[0].neurons[0].update()
         for i in range(len(self.neuron_layers)):
             for j in range(len(self.neuron_layers[i].neurons)):
                 self.neuron_layers[i].neurons[j].hidden_update()
@@ -84,10 +103,10 @@ class NeuronNetwork:
             loss = self.calculate_loss(out, target)
             epochs += 1
             if loss <= error_threshold:
-                print(epochs)
+                print("epochs trained :", epochs)
                 cont = False
             if epochs >= train_threshold:
-                print(epochs)
+                print("epochs trained :", epochs)
                 cont = False
 
     def activate(self, inputs):

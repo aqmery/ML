@@ -57,49 +57,51 @@ def print_neuron3(neuron):
 #             neuron_network.update(sample, target)
 #             print("")
 
-# n_and = Neuron([-0.5, 0.5], 1.5, "AND")
-# activation_and = [0, 0, 0, 1]
+n_and = Neuron([-0.5, 0.5], 1.5, "AND")
+inputs_and = list(itertools.product([0, 1], repeat=2))
+target_and = [0, 0, 0, 1]
+and_layer = NeuronLayer([n_and], "and layer")
+n_and_network = NeuronNetwork([and_layer], "and network")
+
+print_neuron2(n_and)
+
+n_and_network.train(inputs_and, target_and, 0.0001, 10000)
+
+print_neuron2(n_and)
+
 #
-# print_neuron2(n_and)
+# # aa1 = Neuron([2.1, 2.2], 0, "aa1")
+# # aa2 = Neuron([1.9, 2.0], 0, "aa2")
+# # bb1 = Neuron([1.7, 1.8], 0, "bb1")
+# # bb2 = Neuron([1.5, 1.6], 0, "bb2")
+# # m1 = Neuron([1.0, 1.0], 0, "m1")
+# # n1 = Neuron([1.0, 1.0], 0, "n1")
+# f2 = Neuron([0.0, 0.1], 0, "f2")
+# g2 = Neuron([0.2, 0.3], 0, "g2")
+# h2 = Neuron([0.4, 0.5], 0, "h2")
+# s3 = Neuron([0.6, 0.7, 0.8], 0, "s3")
+# c3 = Neuron([0.9, 1.0, 1.1], 0, "c3")
 #
-# train_neuron(n_and, activation_and)
 #
-# print_neuron2(n_and)
-
-
-aa1 = Neuron([2.1, 2.2], 0, "aa1")
-aa2 = Neuron([1.9, 2.0], 0, "aa2")
-bb1 = Neuron([1.7, 1.8], 0, "bb1")
-bb2 = Neuron([1.5, 1.6], 0, "bb2")
-m1 = Neuron([1.0, 1.0], 0, "m1")
-n1 = Neuron([1.0, 1.0], 0, "n1")
-f2 = Neuron([0.0, 0.1], 0, "f2")
-g2 = Neuron([0.2, 0.3], 0, "g2")
-h2 = Neuron([0.4, 0.5], 0, "h2")
-s3 = Neuron([0.6, 0.7, 0.8], 0, "s3")
-c3 = Neuron([0.9, 1.0, 1.1], 0, "c3")
-
-
-n_la = NeuronLayer([aa1, aa2], "layer aa")
-n_lb = NeuronLayer([bb1, bb2], "layer bb")
-n_l0 = NeuronLayer([m1, n1], "input layer 2n")
-n_l1 = NeuronLayer([f2, g2, h2], "hidden layer 3n")
-n_l2 = NeuronLayer([s3, c3], "output layer 2n")
-
-# n_la, n_lb, n_l0,
-half_adder = NeuronNetwork([n_l1, n_l2], "half_adder")
-target_half_adder = [[0,0], [1,0], [1,0], [0,1]]
-inputs = list(itertools.product([0, 1], repeat=2))
-
-print_neuron2(half_adder)
-
-half_adder.train(inputs, target_half_adder, 0.0001, 10000)
-
-print_neuron2(half_adder)
-
-print("")
-print(f2.weights, f2.bias)
-print(g2.weights, g2.bias)
-print(h2.weights, h2.bias)
-print(s3.weights, s3.bias)
-print(c3.weights, c3.bias)
+# # n_la = NeuronLayer([aa1, aa2], "layer aa")
+# # n_lb = NeuronLayer([bb1, bb2], "layer bb")
+# # n_l0 = NeuronLayer([m1, n1], "input layer 2n")
+# n_l1 = NeuronLayer([f2, g2, h2], "hidden layer 3n")
+# n_l2 = NeuronLayer([s3, c3], "output layer 2n")
+#
+# half_adder = NeuronNetwork([n_l1, n_l2], "half_adder")
+# target_half_adder = [[0,0], [0,1], [0,1], [1,0]]
+# inputs_half_adder = list(itertools.product([0, 1], repeat=2))
+#
+# print_neuron2(half_adder)
+#
+# half_adder.train(inputs_half_adder, target_half_adder, 0.0001, 10)
+#
+# print_neuron2(half_adder)
+#
+# # print("")
+# # print(f2.weights, f2.bias)
+# # print(g2.weights, g2.bias)
+# # print(h2.weights, h2.bias)
+# print(s3.weights, s3.bias)
+# print(c3.weights, c3.bias)

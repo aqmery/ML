@@ -53,6 +53,9 @@ class Neuron:
         self.bias = self.bias-bias_change
 
     def hidden_update(self):
+        print(self.weights)
+        print(self.error)
+        print(self.weightchanges)
         for i in range(len(self.weights)):
             self.weights[i] = self.weights[i]-self.weightchanges[i]
         self.bias = self.bias-self.biaschange
