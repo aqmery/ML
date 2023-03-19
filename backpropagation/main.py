@@ -41,21 +41,21 @@ def print_neuron3(neuron):
     print("")
 
 
-def train_neuron(neuron, activation):
-    inputs = list(itertools.product([0, 1], repeat=2))
-    for j in range(1):
-        for sample, target in zip(inputs, activation):
-            # print(sample, target)
-            neuron.update(sample, target)
-            neuron.hidden_error()
-            # print(neuron)
+# def train_neuron(neuron, activation):
+#     inputs = list(itertools.product([0, 1], repeat=2))
+#     for j in range(1):
+#         for sample, target in zip(inputs, activation):
+#             # print(sample, target)
+#             neuron.update(sample, target)
+#             neuron.hidden_error()
+#             # print(neuron)
 
-def train_neuron_network(neuron_network, activation):
-    inputs = list(itertools.product([0, 1], repeat=2))
-    for j in range(1):
-        for sample, target in zip(inputs, activation):
-            neuron_network.update(sample, target)
-            print("")
+# def train_neuron_network(neuron_network, activation):
+#     inputs = list(itertools.product([0, 1], repeat=2))
+#     for j in range(1):
+#         for sample, target in zip(inputs, activation):
+#             neuron_network.update(sample, target)
+#             print("")
 
 # n_and = Neuron([-0.5, 0.5], 1.5, "AND")
 # activation_and = [0, 0, 0, 1]
@@ -88,17 +88,18 @@ n_l2 = NeuronLayer([s3, c3], "output layer 2n")
 
 # n_la, n_lb, n_l0,
 half_adder = NeuronNetwork([n_l1, n_l2], "half_adder")
-activation_half_adder = [[0,0], [1,0], [1,0], [0,1]]
+target_half_adder = [[0,0], [1,0], [1,0], [0,1]]
+inputs = list(itertools.product([0, 1], repeat=2))
 
+print_neuron2(half_adder)
 
-print("activate half adder", half_adder.activate([1, 1]))
-half_adder.backprop([1, 1], activation_half_adder[3])
+half_adder.train(inputs, target_half_adder, 0.0001, 10000)
+
+print_neuron2(half_adder)
+
 print("")
-print("")
-print("half_adder.error", half_adder.error)
-
-print("activate half adder", half_adder.activate([1, 1]))
-
-
-
-
+print(f2.weights, f2.bias)
+print(g2.weights, g2.bias)
+print(h2.weights, h2.bias)
+print(s3.weights, s3.bias)
+print(c3.weights, c3.bias)

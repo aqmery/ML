@@ -27,6 +27,13 @@ class NeuronNetwork:
         self.error = error_lst
         self.output = output
 
+    def calculate_loss(self, error, target):
+        total_sum = 0
+        for i in range(len(error)):
+            for j in range(len(error[0])):
+                total_sum += (target[i][j]-error[i][j])**2
+        return total_sum/(2*len(error)*len(error[0]))
+
     def calculate_output_layer(self, inputs, error):
         output_layer = len(self.neuron_layers)-2
         for e in range(len(error)):
@@ -53,9 +60,6 @@ class NeuronNetwork:
             error = []
             for j in range(len(temp)):
                 error.append(temp[j][0])
-            print("")
-            print("-----------------------------")
-            print("")
             count += 1
 
     def update(self):
@@ -63,21 +67,28 @@ class NeuronNetwork:
             for j in range(len(self.neuron_layers[i].neurons)):
                 self.neuron_layers[i].neurons[j].hidden_update()
 
-
-
-
     def backprop(self, inputs, target):
-        self.activate(inputs)
         self.calculate_error(inputs, target)
-        error = self.error
-        self.calculate_output_layer(inputs, error)
-        print("-----------------------------")
+        self.calculate_output_layer(inputs, self.error)
         self.calculate_hidden_layers()
-        self.update()
-        # for i in reversed(range(len(self.neuron_layers))):
-        #     self.neuron_layers[i].backprop(error, self.eta)
-        #     print("-----------------------------")
-        # error =
+
+    def train(self, inputs, target, error_threshold, train_threshold):
+        cont = True
+        epochs = 0
+        while cont:
+            out = []
+            for i in range(len(target)):
+                out.append(self.activate(inputs[i]))
+                self.backprop(inputs[i], target[i])
+                self.update()
+            loss = self.calculate_loss(out, target)
+            epochs += 1
+            if loss <= error_threshold:
+                print(epochs)
+                cont = False
+            if epochs >= train_threshold:
+                print(epochs)
+                cont = False
 
     def activate(self, inputs):
         """
@@ -91,4 +102,3 @@ class NeuronNetwork:
             outputs = self.neuron_layers[i].activate(inputs)
             inputs = outputs
         return outputs
-        # return self.feed_forward(outputs)
