@@ -39,7 +39,6 @@ class NeuronNetwork:
 
     def calculate_hidden_layers(self):
         error = self.error
-        print("")
         count = 1
         amount_weights = len(error)
         for i in reversed(range(len(self.neuron_layers)-1)):
@@ -49,26 +48,32 @@ class NeuronNetwork:
                 weights = []
                 for k in range(amount_weights):
                     weights.append(self.neuron_layers[len(self.neuron_layers) - count].neurons[k].weights[j])
-                print("print weights from network =", weights)
                 temp.append(self.neuron_layers[i].neurons[j].hidden_error(weights, error, self.eta))
-            print("temp", temp)
             amount_weights = len(temp)
+            error = []
+            for j in range(len(temp)):
+                error.append(temp[j][0])
             print("")
             print("-----------------------------")
             print("")
-            print("")
             count += 1
+
+    def update(self):
+        for i in range(len(self.neuron_layers)):
+            for j in range(len(self.neuron_layers[i].neurons)):
+                self.neuron_layers[i].neurons[j].hidden_update()
+
+
+
 
     def backprop(self, inputs, target):
         self.activate(inputs)
         self.calculate_error(inputs, target)
         error = self.error
-        print("self.error", self.error)
-        print("self.output", self.output)
-        print("")
         self.calculate_output_layer(inputs, error)
         print("-----------------------------")
         self.calculate_hidden_layers()
+        self.update()
         # for i in reversed(range(len(self.neuron_layers))):
         #     self.neuron_layers[i].backprop(error, self.eta)
         #     print("-----------------------------")

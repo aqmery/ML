@@ -86,22 +86,19 @@ n_l0 = NeuronLayer([m1, n1], "input layer 2n")
 n_l1 = NeuronLayer([f2, g2, h2], "hidden layer 3n")
 n_l2 = NeuronLayer([s3, c3], "output layer 2n")
 
-
-half_adder = NeuronNetwork([n_la, n_lb, n_l0, n_l1, n_l2], "half_adder")
+# n_la, n_lb, n_l0,
+half_adder = NeuronNetwork([n_l1, n_l2], "half_adder")
 activation_half_adder = [[0,0], [1,0], [1,0], [0,1]]
 
 
-# print(f2.activate([1,1]))
-# print("")
-# print(half_adder.activate([1,1]))
-# half_adder.activate([1, 1])
+print("activate half adder", half_adder.activate([1, 1]))
 half_adder.backprop([1, 1], activation_half_adder[3])
-# half_adder.calculate_error([1,1], activation_half_adder[3])
 print("")
 print("")
 print("half_adder.error", half_adder.error)
 
-# print(half_adder.neuron_layers[1].neurons[0].weights)
-# print(half_adder.neuron_layers[1].neurons[0].weightchange)
+print("activate half adder", half_adder.activate([1, 1]))
+
+
 
 

@@ -52,6 +52,11 @@ class Neuron:
             self.weights[i] = self.weights[i]-weight_change[i]
         self.bias = self.bias-bias_change
 
+    def hidden_update(self):
+        for i in range(len(self.weights)):
+            self.weights[i] = self.weights[i]-self.weightchanges[i]
+
+
     def hidden_error(self, weights, error, eta):
         h_error = (self.output * (1 - self.output))
         sum_previous_layer = 0
@@ -64,9 +69,9 @@ class Neuron:
         bias_change = eta*1*self.error
         self.weightchanges = weight_change
         self.biaschange = bias_change
-        print(weight_change)
-        print(bias_change)
-        print("")
+        # print(weight_change)
+        # print(bias_change)
+        # print("")
         return self.error, self.weights
 
     def activate(self, inputs):
