@@ -33,25 +33,20 @@ class NeuronNetwork:
 
     def calculate_loss(self, error, target):
         total_sum = 0
+        if type(error[0]) != list:
+            for i in range(len(error)):
+                total_sum += (target[i] - error[i]) ** 2
+            return total_sum / (2 * len(error))
         for i in range(len(error)):
-            for j in range(len(error[0])):
-                total_sum += (target[i][j]-error[i][j])**2
-        return total_sum/(2*len(error)*len(error[0]))
+            if len(error[0]) < 2:
+                total_sum += (target[i] - error[i][0]) ** 2
+            else:
+                for j in range(len(error[0])):
+                    total_sum += (target[i][j]-error[i][j])**2
+            return total_sum/(2*len(error)*len(error[0]))
 
     def calculate_output_layer(self, inputs, error):
-        # print("asdf")
-        # print(self.neuron_layers)
-        # # print("layer name ", self.neuron_layers.name)
-        # # print(self.neuron_layers.neurons)
-        # print("asdf")
-        # if len(self.neuron_layers) < 2:
-        #     output_layer = 0
-        # else:
-        #     output_layer = len(self.neuron_layers)-2
         output_layer = len(self.neuron_layers) - 2
-        # print(inputs)
-        # print(error)
-        # print(output_layer)
         for e in range(len(error)):
             weight_change = []
             for i in range(len(self.neuron_layers[output_layer].neurons)):
@@ -80,8 +75,6 @@ class NeuronNetwork:
             count += 1
 
     def update(self):
-        # if len(self.neuron_layers) == 1 and len(self.neuron_layers[0].neurons) == 1:
-        #     self.neuron_layers[0].neurons[0].update()
         for i in range(len(self.neuron_layers)):
             for j in range(len(self.neuron_layers[i].neurons)):
                 self.neuron_layers[i].neurons[j].hidden_update()
@@ -97,9 +90,13 @@ class NeuronNetwork:
         while cont:
             out = []
             for i in range(len(target)):
-                out.append(self.activate(inputs[i]))
-                self.backprop(inputs[i], target[i])
-                self.update()
+                if len(self.neuron_layers) == 1 and len(self.neuron_layers[0].neurons) == 1:
+                    out.append(self.neuron_layers[0].neurons[0].activate(inputs[i]))
+                    self.neuron_layers[0].neurons[0].update(inputs[i], target[i], self.eta)
+                else:
+                    out.append(self.activate(inputs[i]))
+                    self.backprop(inputs[i], target[i])
+                    self.update()
             loss = self.calculate_loss(out, target)
             epochs += 1
             if loss <= error_threshold:
