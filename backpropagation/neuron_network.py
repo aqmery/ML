@@ -7,7 +7,7 @@ class NeuronNetwork:
     def __init__(self, neuron_layers, name):
         self.neuron_layers = neuron_layers
         self.name = name
-        self.eta = .2
+        self.eta = None
         self.inputs = None
         self.error = None
         self.output = None
@@ -36,14 +36,14 @@ class NeuronNetwork:
         if type(error[0]) != list:
             for i in range(len(error)):
                 total_sum += (target[i] - error[i]) ** 2
-            return total_sum/(2*len(error))
+            return total_sum/len(error)
         for i in range(len(error)):
             if len(error[0]) < 2:
                 total_sum += (target[i] - error[i][0]) ** 2
             else:
                 for j in range(len(error[0])):
                     total_sum += (target[i][j]-error[i][j])**2
-            return total_sum/(2*len(error))
+        return total_sum/len(error)
 
     def calculate_output_layer(self, inputs, error):
         output_layer = len(self.neuron_layers) - 2
@@ -54,7 +54,6 @@ class NeuronNetwork:
             bias_change = self.eta * error[e]
             self.neuron_layers[output_layer + 1].neurons[e].weightchanges = weight_change
             self.neuron_layers[output_layer + 1].neurons[e].biaschange = bias_change
-
 
     def calculate_hidden_layers(self):
         error = self.error
@@ -84,7 +83,8 @@ class NeuronNetwork:
         self.calculate_output_layer(inputs, self.error)
         self.calculate_hidden_layers()
 
-    def train(self, inputs, target, error_threshold, train_threshold):
+    def train(self, inputs, target, error_threshold, train_threshold, eta):
+        self.eta = eta
         cont = True
         epochs = 0
         while cont:
@@ -118,3 +118,13 @@ class NeuronNetwork:
             outputs = self.neuron_layers[i].activate(inputs)
             inputs = outputs
         return outputs
+
+    def collapse_activate(self, inputs):
+        outputs = self.activate(inputs)
+        new_out = []
+        for output in outputs:
+            if output >= 0.5:
+                new_out.append(1)
+            else:
+                new_out.append(0)
+        return new_out
