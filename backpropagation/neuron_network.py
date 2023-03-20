@@ -7,7 +7,7 @@ class NeuronNetwork:
     def __init__(self, neuron_layers, name):
         self.neuron_layers = neuron_layers
         self.name = name
-        self.eta = 1
+        self.eta = .2
         self.inputs = None
         self.error = None
         self.output = None
@@ -36,14 +36,14 @@ class NeuronNetwork:
         if type(error[0]) != list:
             for i in range(len(error)):
                 total_sum += (target[i] - error[i]) ** 2
-            return total_sum / (2 * len(error))
+            return total_sum/(2*len(error))
         for i in range(len(error)):
             if len(error[0]) < 2:
                 total_sum += (target[i] - error[i][0]) ** 2
             else:
                 for j in range(len(error[0])):
                     total_sum += (target[i][j]-error[i][j])**2
-            return total_sum/(2*len(error)*len(error[0]))
+            return total_sum/(2*len(error))
 
     def calculate_output_layer(self, inputs, error):
         output_layer = len(self.neuron_layers) - 2
