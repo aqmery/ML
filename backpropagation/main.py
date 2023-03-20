@@ -45,7 +45,7 @@ def print_neuron3(neuron):
     print("")
 
 
-n_and = Neuron([-0.5, 0.5], 1.5, "AND")
+n_and = Neuron([random.uniform(-1, 1) for _ in range(2)], random.uniform(-1, 1), "AND")
 inputs_and = list(itertools.product([0, 1], repeat=2))
 target_and = [0, 0, 0, 1]
 and_layer = NeuronLayer([n_and], "and layer")
@@ -53,18 +53,18 @@ n_and_network = NeuronNetwork([and_layer], "and network")
 
 print_neuron2(n_and)
 
-n_and_network.train(inputs_and, target_and, 0.001, 10000)
+n_and_network.train(inputs_and, target_and, 0.001, 10000, 0.5)
 
 print("")
 print_neuron2(n_and)
 
 print("------------------------------------------------------------------------")
 
-f2 = Neuron([0.0, 0.1], 0, "f2")
-g2 = Neuron([0.2, 0.3], 0, "g2")
-h2 = Neuron([0.4, 0.5], 0, "h2")
-s3 = Neuron([0.6, 0.7, 0.8], 0, "s3")
-c3 = Neuron([0.9, 1.0, 1.1], 0, "c3")
+f2 = Neuron([random.uniform(-1, 1) for _ in range(2)], random.uniform(-1, 1), "f2")
+g2 = Neuron([random.uniform(-1, 1) for _ in range(2)], random.uniform(-1, 1), "g2")
+h2 = Neuron([random.uniform(-1, 1) for _ in range(2)], random.uniform(-1, 1), "h2")
+s3 = Neuron([random.uniform(-1, 1) for _ in range(3)], random.uniform(-1, 1), "s3")
+c3 = Neuron([random.uniform(-1, 1) for _ in range(3)], random.uniform(-1, 1), "c3")
 
 n_l1 = NeuronLayer([f2, g2, h2], "hidden layer 3n")
 n_l2 = NeuronLayer([s3, c3], "output layer 2n")
@@ -75,16 +75,16 @@ inputs_half_adder = list(itertools.product([0, 1], repeat=2))
 
 print_neuron2(half_adder)
 
-half_adder.train(inputs_half_adder, target_half_adder, 0.001, 10000)
+half_adder.train(inputs_half_adder, target_half_adder, 0.01, 10000, 0.2)
 
 print("")
 print_neuron2(half_adder)
 
 print("------------------------------------------------------------------------")
 
-f2 = Neuron([1.2, 1.2], 0, "f2")
-g2 = Neuron([1.5, 1.43], 0, "g2")
-o3 = Neuron([1.1, 1.9], 0, "03")
+f2 = Neuron([random.uniform(-1, 1) for _ in range(2)], random.uniform(-1, 1), "f2")
+g2 = Neuron([random.uniform(-1, 1) for _ in range(2)], random.uniform(-1, 1), "g2")
+o3 = Neuron([random.uniform(-1, 1) for _ in range(2)], random.uniform(-1, 1), "03")
 
 inputs_xor = list(itertools.product([0, 1], repeat=2))
 target_xor = [0, 1, 1, 0]
@@ -94,7 +94,7 @@ xor_network = NeuronNetwork([xor_layer1, xor_layer2], "xor network")
 
 print_neuron2(xor_network)
 
-xor_network.train(inputs_xor, target_xor, 0.001, 10000)
+xor_network.train(inputs_xor, target_xor, 0.001, 10000, 0.5)
 
 print("")
 print_neuron2(xor_network)
@@ -103,8 +103,8 @@ print("------------------------------------------------------------------------"
 
 
 iris = load_iris()
-# df_iris = pd.DataFrame(data=np.c_[iris["data"], iris["target"]],
-#                      columns= iris["feature_names"] + ["target"])
+df_iris = pd.DataFrame(data=np.c_[iris["data"], iris["target"]],
+                     columns= iris["feature_names"] + ["target"])
 target_iris = []
 for i in range(len(iris["target"])):
     if iris["target"][i] == 0.0:
@@ -114,7 +114,7 @@ for i in range(len(iris["target"])):
     else:
         target_iris.append([0, 0, 1])
 
-inputs_iris = list(iris["data"])
+inputs_iris = [list(row[:4]) for row in df_iris.values]
 
 
 i2 = Neuron([random.uniform(-1, 1) for _ in range(4)], random.uniform(-1, 1), "i2")
@@ -129,15 +129,13 @@ iris_layer1 = NeuronLayer([i2, j2, k2, l2], "layer 1")
 iris_layer2 = NeuronLayer([o3, p3, q3], "layer 2")
 iris_network = NeuronNetwork([iris_layer1, iris_layer2], "iris network")
 
-# print(inputs_iris)
-print(iris_network.activate(inputs_iris[2]))
-print(target_iris[2])
 
-iris_network.train(inputs_iris, target_iris, 0.0001, 1000)
-
-print(iris_network.activate(inputs_iris[2]))
-print(target_iris[2])
+iris_network.train(inputs_iris, target_iris, 0.001, 1000, 0.5)
 
 
-print(iris_network.activate(inputs_iris[3]))
-print(target_iris[3])
+results = [iris_network.collapse_activate(inputs_iris[row]) for row in range(len(inputs_iris))]
+
+print(target_iris)
+print(results)
+correct = sum(1 for i in range(len(target_iris)) if results[i] == target_iris[i])
+print(correct/len(target_iris))
