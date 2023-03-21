@@ -19,6 +19,12 @@ class NeuronNetwork:
         return str(f"neuron layer names = {l_names}, network name = {self.name}")
 
     def calculate_error(self, inputs, target):
+        """
+        calculates the error of a datapoint.
+        :param inputs: the input for that datapoint.
+        :param target: the target for that datapoint.
+        :return: sets the self.error and self.output variables.
+        """
         output = self.activate(inputs)
         error_lst = []
         if type(target) == int:
@@ -32,6 +38,12 @@ class NeuronNetwork:
         self.output = output
 
     def calculate_loss(self, error, target):
+        """
+        calculates the loss function of the network.
+        :param error: a list of all errors from each datapoint.
+        :param target: the target for each of those datapoints.
+        :return: returns the mean squared error of the network
+        """
         total_sum = 0
         if type(error[0]) != list:
             for i in range(len(error)):
@@ -46,6 +58,12 @@ class NeuronNetwork:
         return total_sum/len(error)
 
     def calculate_output_layer(self, inputs, error):
+        """
+        calculates the changes to the output layer of the network.
+        :param inputs: 1 data point.
+        :param error: the error of the output layer.
+        :return:
+        """
         output_layer = len(self.neuron_layers) - 2
         for e in range(len(error)):
             weight_change = []
@@ -56,6 +74,10 @@ class NeuronNetwork:
             self.neuron_layers[output_layer + 1].neurons[e].biaschange = bias_change
 
     def calculate_hidden_layers(self):
+        """
+        calculates the changes to the hidden layers of the network.
+        :return:
+        """
         error = self.error
         count = 1
         amount_weights = len(error)
@@ -74,21 +96,41 @@ class NeuronNetwork:
             count += 1
 
     def update(self):
+        """
+        calls the hidden_update function of the deeper layer neurons.
+        :return:
+        """
         for i in range(len(self.neuron_layers)):
             for j in range(len(self.neuron_layers[i].neurons)):
                 self.neuron_layers[i].neurons[j].hidden_update()
 
     def backprop(self, inputs, target):
+        """
+        uses backpropagation on the network, calls the calculate_error,
+        calculate_output_layer and calculate_hidden_layers functions.
+        :param inputs: 1 data point.
+        :param target: the target of that data point.
+        :return:
+        """
         self.calculate_error(inputs, target)
         self.calculate_output_layer(inputs, self.error)
         self.calculate_hidden_layers()
 
     def train(self, inputs, target, error_threshold, train_threshold, eta):
+        """
+        trains the neural network until a stop condition is reached.
+        :param inputs: a list of all datapoints to the network.
+        :param target: a list of all the targets for those datapoints.
+        :param error_threshold: how "wrong" the final output can be, before stopping with training.
+        :param train_threshold: the amount of loops the network can train to prevent an infinite loop,
+        if the error_threshold can't be reached.
+        :param eta: the "stepsize" of the changes.
+        :return: returns a network that should be able to classify the dataset used to train it.
+        """
         self.eta = eta
         cont = True
         epochs = 0
         while cont:
-            print("epoch ", epochs)
             out = []
             for i in range(len(target)):
                 if len(self.neuron_layers) == 1 and len(self.neuron_layers[0].neurons) == 1:
@@ -121,6 +163,11 @@ class NeuronNetwork:
         return outputs
 
     def collapse_activate(self, inputs):
+        """
+        collapses the activate function into either a 1 or a 0 based on if the input is >= 0.5.
+        :param inputs: the inputs of a single data point.
+        :return: returns a list of either 1s and/or 0s.
+        """
         outputs = self.activate(inputs)
         new_out = []
         for output in outputs:
