@@ -88,6 +88,7 @@ class NeuronNetwork:
         cont = True
         epochs = 0
         while cont:
+            print("epoch ", epochs)
             out = []
             for i in range(len(target)):
                 if len(self.neuron_layers) == 1 and len(self.neuron_layers[0].neurons) == 1:

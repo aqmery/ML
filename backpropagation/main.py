@@ -109,7 +109,7 @@ digits = load_digits()
 df_digits = pd.DataFrame(data=np.c_[digits["data"], digits["target"]],
                      columns= digits["feature_names"] + ["target"])
 
-digits_network = create_network(2, [10, 10], [64, 10], "digits_network")
+digits_network = create_network(2, [30, 10, 10, 10], [64, 30, 10, 10], "digits_network")
 target_digits = []
 for i in range(len(digits["target"])):
     for j in range(10):
