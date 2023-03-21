@@ -9,102 +9,73 @@ from neuron_network import NeuronNetwork
 random.seed(1782152)
 
 
-def print_neuron1(neuron):
-    """
-    takes a neuron with 1 weight and prints the name, input1 and the output.
-    :param neuron: gets a neuron with 1 weights.
-    :return: prints a 2 by 2 grid of possible inputs and the output.
-    """
-    print(f"{neuron}\n{neuron.name}\nin1 | out")
-    for i in range(2):
-        print(f"{i}   | {neuron.activate([i])}")
+def print_neuron(network):
+    num_weights = len(network.neuron_layers[0].neurons[0].weights)
+    print(f"{network}\n{network.name}")
+    for w in range(num_weights):
+        print(f"in{w + 1} ", end="")
+    print("| out")
+    for out in itertools.product(range(2), repeat=num_weights):
+        input_str = "   ".join(str(i) for i in out)
+        print(f"{input_str}   | {network.activate(out)}")
     print("")
 
 
-def print_neuron2(neuron):
-    """
-    takes a neuron with 2 weights and prints the name, input1, input2 and the output.
-    :param neuron: gets a neuron with 2 weights.
-    :return: prints a 4 by 3 grid of possible inputs and the output.
-    """
-    print(f"{neuron}\n{neuron.name}\nin1 in2 | out")
-    for i, j in itertools.product(range(2), repeat=2):
-        print(f"{i}   {j}   | {neuron.activate([i, j])}")
-    print("")
+def create_network(layers, neurons_list, amount_weights, network_name):
+    neuron_layers = []
+    for l in range(layers):
+        neurons = []
+        for n in range(neurons_list[l]):
+            neurons.append(Neuron([random.uniform(-1, 1) for _ in range(amount_weights[l])],
+                                  random.uniform(-1, 1), "L"+str(l)+"N"+str(n)))
+        neuron_layers.append(NeuronLayer(neurons, "Layer"+str(l)))
+    return NeuronNetwork(neuron_layers, str(network_name))
 
 
-def print_neuron3(neuron):
-    """
-    takes a neuron with 3 weights and prints the name, input1, input2, input3 and the output.
-    :param neuron: gets a neuron with 3 weights.
-    :return: prints an 8 by 4 grid of possible inputs and the output.
-    """
-    print(f"{neuron}\n{neuron.name}\nin1 in2 in3 | out")
-    for i, j, k in itertools.product(range(2), repeat=3):
-        print(f"{i}   {j}   {k}   | {neuron.activate([i, j, k])}")
-    print("")
-
-
-n_and = Neuron([random.uniform(-1, 1) for _ in range(2)], random.uniform(-1, 1), "AND")
+and_network = create_network(1, [1], [2], "and_network")
 inputs_and = list(itertools.product([0, 1], repeat=2))
 target_and = [0, 0, 0, 1]
-and_layer = NeuronLayer([n_and], "and layer")
-n_and_network = NeuronNetwork([and_layer], "and network")
 
-print_neuron2(n_and)
+print_neuron(and_network)
 
-n_and_network.train(inputs_and, target_and, 0.001, 10000, 0.5)
+and_network.train(inputs_and, target_and, 0.001, 10000, 0.5)
 
 print("")
-print_neuron2(n_and)
-
+print_neuron(and_network)
 print("------------------------------------------------------------------------")
 
-f2 = Neuron([random.uniform(-1, 1) for _ in range(2)], random.uniform(-1, 1), "f2")
-g2 = Neuron([random.uniform(-1, 1) for _ in range(2)], random.uniform(-1, 1), "g2")
-h2 = Neuron([random.uniform(-1, 1) for _ in range(2)], random.uniform(-1, 1), "h2")
-s3 = Neuron([random.uniform(-1, 1) for _ in range(3)], random.uniform(-1, 1), "s3")
-c3 = Neuron([random.uniform(-1, 1) for _ in range(3)], random.uniform(-1, 1), "c3")
 
-n_l1 = NeuronLayer([f2, g2, h2], "hidden layer 3n")
-n_l2 = NeuronLayer([s3, c3], "output layer 2n")
-
-half_adder = NeuronNetwork([n_l1, n_l2], "half_adder")
+half_adder = create_network(2, [3, 2], [2, 3], "half_adder")
 target_half_adder = [[0,0], [0,1], [0,1], [1,0]]
 inputs_half_adder = list(itertools.product([0, 1], repeat=2))
 
-print_neuron2(half_adder)
+print_neuron(half_adder)
 
 half_adder.train(inputs_half_adder, target_half_adder, 0.01, 10000, 0.2)
 
 print("")
-print_neuron2(half_adder)
-
+print_neuron(half_adder)
 print("------------------------------------------------------------------------")
 
-f2 = Neuron([random.uniform(-1, 1) for _ in range(2)], random.uniform(-1, 1), "f2")
-g2 = Neuron([random.uniform(-1, 1) for _ in range(2)], random.uniform(-1, 1), "g2")
-o3 = Neuron([random.uniform(-1, 1) for _ in range(2)], random.uniform(-1, 1), "03")
 
+xor_network = create_network(2, [2, 1], [2, 2], "xor_network")
 inputs_xor = list(itertools.product([0, 1], repeat=2))
 target_xor = [0, 1, 1, 0]
-xor_layer1 = NeuronLayer([f2, g2], "layer 1")
-xor_layer2 = NeuronLayer([o3], "layer 2")
-xor_network = NeuronNetwork([xor_layer1, xor_layer2], "xor network")
 
-print_neuron2(xor_network)
+print_neuron(xor_network)
 
 xor_network.train(inputs_xor, target_xor, 0.001, 10000, 0.5)
 
 print("")
-print_neuron2(xor_network)
-
+print_neuron(xor_network)
 print("------------------------------------------------------------------------")
 
 
 iris = load_iris()
 df_iris = pd.DataFrame(data=np.c_[iris["data"], iris["target"]],
                      columns= iris["feature_names"] + ["target"])
+
+iris_network = create_network(2, [4, 3], [4, 4], "iris_network")
 target_iris = []
 for i in range(len(iris["target"])):
     if iris["target"][i] == 0.0:
@@ -113,29 +84,11 @@ for i in range(len(iris["target"])):
         target_iris.append([0, 1, 0])
     else:
         target_iris.append([0, 0, 1])
-
 inputs_iris = [list(row[:4]) for row in df_iris.values]
-
-
-i2 = Neuron([random.uniform(-1, 1) for _ in range(4)], random.uniform(-1, 1), "i2")
-j2 = Neuron([random.uniform(-1, 1) for _ in range(4)], random.uniform(-1, 1), "j2")
-k2 = Neuron([random.uniform(-1, 1) for _ in range(4)], random.uniform(-1, 1), "k2")
-l2 = Neuron([random.uniform(-1, 1) for _ in range(4)], random.uniform(-1, 1), "l2")
-o3 = Neuron([random.uniform(-1, 1) for _ in range(4)], random.uniform(-1, 1), "o3")
-p3 = Neuron([random.uniform(-1, 1) for _ in range(4)], random.uniform(-1, 1), "p3")
-q3 = Neuron([random.uniform(-1, 1) for _ in range(4)], random.uniform(-1, 1), "q3")
-
-iris_layer1 = NeuronLayer([i2, j2, k2, l2], "layer 1")
-iris_layer2 = NeuronLayer([o3, p3, q3], "layer 2")
-iris_network = NeuronNetwork([iris_layer1, iris_layer2], "iris network")
-
 
 iris_network.train(inputs_iris, target_iris, 0.001, 1000, 0.5)
 
-
 results = [iris_network.collapse_activate(inputs_iris[row]) for row in range(len(inputs_iris))]
 
-print(target_iris)
-print(results)
 correct = sum(1 for i in range(len(target_iris)) if results[i] == target_iris[i])
 print(correct/len(target_iris))
