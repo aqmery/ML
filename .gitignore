@@ -1,6 +1,6 @@
 sigmoid_neuron/.idea/*
 backpropagation/.idea/*
-
+tensorflow_tests/*
 
 
 # Byte-compiled / optimized / DLL files
